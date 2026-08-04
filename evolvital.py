@@ -514,7 +514,7 @@ PARAMETER_BASE = build_parameter_base(selection)
 
 #10x*100x = 1000x²
 
-SCALE = 1
+SCALE = 4
 
 gene_space, gene_type = generate_gene(PARAMETER_BASE, MOD_CONNECTIONS, MOD_COUNT)
 num_generations = SCALE*10

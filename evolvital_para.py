@@ -408,7 +408,7 @@ def on_generation(ga_instance):
 
 metric = sys.argv[1]
 
-metrics = [metric]
+metrics = [metric,"mfcc"]
 targets_n = sys.argv[2:]
 targets = []
 for t in targets_n:
@@ -530,7 +530,7 @@ K_tournament= SCALE*1
 elitism=SCALE*1
 crossover_type="uniform"
 crossover_probability=1
-processes=["process", 3]
+processes=["process", 8]
 
 
 for metric in metrics:
