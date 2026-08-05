@@ -232,6 +232,9 @@ def target_similarity(A,metric,jtfs_x=None):
         case "SpC":
             A = spectral_centroid(A)
             return centroid_distance(A, TARGET_CENTROID)
+        case "simse":
+            A = simse_prep(A)
+            return simse(A,TARGET_SIMSE)
     raise Exception("!!!! METRIC " + metric + " NOT FOUND !!!!")
 
        
@@ -335,10 +338,10 @@ def extract_mfcc(audio):
 def simse_prep(audio):
     stft = librosa.stft(
         audio,
-        n_fft=512,
+        n_fft=1024,
         win_length=600,
-        hop_length=100,
-        eps=1e-10
+        hop_length=100
+        #eps=1e-10
     )
 
     x = np.abs(stft)
@@ -576,6 +579,7 @@ for metric in metrics:
         TARGET_MFCC = extract_mfcc(TARGET_AUDIO)
         TARGET_DTW, TARGET_REF_MEAN, TARGET_REF_STD,= dtw_prep(TARGET_AUDIO)
         TARGET_CENTROID = spectral_centroid(TARGET_AUDIO)
+        TARGET_SIMSE = simse_prep(TARGET_AUDIO)
 
         main_jtfs = TimeFrequencyScattering(
             J=8,
