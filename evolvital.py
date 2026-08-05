@@ -530,7 +530,7 @@ K_tournament= SCALE*1
 elitism=SCALE*1
 crossover_type="uniform"
 crossover_probability=1
-processes=["process", 3]
+processes=["process", 2]
 
 
 for metric in metrics:

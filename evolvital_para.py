@@ -236,7 +236,9 @@ def target_similarity(A,metric,jtfs_x=None):
 
        
 def mfcc_distance(mfccA, mfccB):
-    similarity = 1 - cosine(mfccA, mfccB)
+    #similarity = 1 - cosine(mfccA, mfccB)
+    similarity = np.linalg.norm(mfccA -mfccB)
+    similarity = 1 / (1 + similarity)
     return similarity
 
 def spectral_error(specA, specB):
@@ -330,6 +332,28 @@ def extract_mfcc(audio):
     return mfcc
 
 
+def simse_prep(audio):
+    stft = librosa.stft(
+        audio,
+        n_fft=512,
+        win_length=600,
+        hop_length=100,
+        eps=1e-10
+    )
+
+    x = np.abs(stft)
+    x = x.flatten()
+
+def simse(A, B):
+    alpha = np.dot(B, A) / (np.dot(A, A) + 1e-10)
+
+    A_scaled = alpha * A
+
+    similarity = np.mean((B - A_scaled) **2)
+
+    return similarity
+
+
 #=============================================================================+
 #______________________________PYGAD FUNCTIONS________________________________
 #=============================================================================+
@@ -418,7 +442,7 @@ MFCC_COUNT = 20
 SAMPLE_RATE = 44_100
 BPM = 120.0
 NOTE_DUR = 2#1.2
-RENDER_DUR = 3#1.41
+RENDER_DUR = 2.5#1.41
 PITCH = 48
 VELOCITY = 0.7
 
